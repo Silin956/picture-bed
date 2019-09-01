@@ -5,8 +5,7 @@
 </template>
 
 <script>
-import 'normalize.css'
-import IndexView from './components/Index.vue'
+import IndexView from './components/Index.vue';
 export default {
   name: 'app',
   components: {
@@ -15,8 +14,6 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  
-}
+<style scoped>
+
 </style>
