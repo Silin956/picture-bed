@@ -12,7 +12,11 @@
       </div>
       <!-- 左中 -->
       <div class="left_middle">
-        
+        <!-- 左侧列表 -->
+        <div class="select_item">
+          <a-icon class="select_icon" type="crown" style="fontSize: 20px; verticalAlign: middle;" theme="twoTone"/>
+          <span class="select_upload">上传图片</span>
+        </div>
       </div>
       <!-- 左下 -->
       <div class="left_bottom">
@@ -23,11 +27,28 @@
     <div class="right">
       <!-- 右上 -->
       <div class="right_top">
-        
+        <a-button class="login_btn" size="large" type="primary"><a-avatar style="margin: -3px 3px 3px -4px" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />登录<a-icon type="caret-down" /></a-button>
       </div>
       <!-- 右中 -->
       <div class="right_middle">
-        
+        <!-- 图片上传 -->
+        <div class="uploadImages">
+          <a-upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            listType="picture-card"
+            :fileList="fileList"
+            @preview="handlePreview"
+            @change="handleChange"
+          >
+            <div v-if="fileList.length < 999">
+              <a-icon type="plus" />
+              <div class="ant-upload-text">上传图片</div>
+            </div>
+          </a-upload>
+          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+            <img alt="example" style="width: 100%" :src="previewImage" />
+          </a-modal>
+        </div>
       </div>
       <!-- 右下 -->
       <div class="right_bottom">
@@ -42,8 +63,29 @@ export default {
   name: 'IndexView',
   data() {
     return {
-      
+      // 上传图片数据
+      previewVisible: false,
+      previewImage: '',
+      fileList: [{
+        uid: '-1',
+        name: 'xxx.png',
+        status: 'done',
+        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      }],
+      // 
     }
+  },
+  methods: {
+    handleCancel () {
+      this.previewVisible = false
+    },
+    handlePreview (file) {
+      this.previewImage = file.url || file.thumbUrl
+      this.previewVisible = true
+    },
+    handleChange ({ fileList }) {
+      this.fileList = fileList
+    },
   }
 }
 </script>
@@ -88,6 +130,21 @@ export default {
       .left_middle{
         flex: 1;
         background: rgb(63, 69, 73);
+        .select_item{
+          height: 46px;
+          line-height: 46px;
+          padding: 0 18px;
+          border-bottom: 1px solid #d7dedf;
+          .select_icon{
+            margin: -2px 0 0 0;
+          }
+          .select_upload{
+            margin-left: 8px;
+            color: #229bf1;
+            font-size: 13px;
+            font-weight: 400;
+          }
+        }
       }
       .left_bottom{
         height: 7vh;
@@ -100,14 +157,22 @@ export default {
       display: flex;
       flex-direction: column;
       .right_top{
-        height: 7vh;
+        height: 6vh;
         background: rgb(157, 196, 228);
+        .login_btn{
+          height: 6vh;
+          float: right;
+          cursor: pointer;
+          font-size: 14px;
+          width: 120px;
+        }
       }
       .right_middle{
         flex: 1;
         overflow-x: hidden;
         overflow-y: auto;
-        background: url(../assets/right_top@3x.png) no-repeat right top / 529px 300px, url(../assets/left_bottom@3x.png) no-repeat left bottom / 529px 300px, url(../assets/center@3x.png) no-repeat center center / 174px 122px ;
+        background: url(../assets/right_top@3x.png) no-repeat right top / 529px 300px, url(../assets/left_bottom@3x.png) no-repeat left bottom / 529px 300px, url(../assets/center@3x.png) no-repeat center center / 174px 122px;
+        padding: 18px 14px;
       }
       .right_bottom{
         height: 7vh;
